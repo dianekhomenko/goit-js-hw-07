@@ -15,7 +15,7 @@ gallery.insertAdjacentHTML("beforeend", template);
 
 gallery.addEventListener("click", onClick);
 
-let galleryBig;;
+let galleryBig;
 
 function onClick(evt) {
   if (evt.target.nodeName !== "IMG") {
@@ -32,13 +32,18 @@ function onClick(evt) {
     .show();
 }
 
-document.addEventListener("keydown", closeGallery);
+document.addEventListener(
+  "keydown",
+  closeGallery
+);
 
 function closeGallery({ key }) {
-
-    if (galleryBig.show || key === "Escape") {
-        console.log("close");
-        galleryBig.close();
-    }   
-    
+  if (
+    !basicLightbox.visible() ||
+    key !== "Escape"
+  ) {
+    return;
+  }
+  console.log("close");
+  basicLightbox.close();
 }
