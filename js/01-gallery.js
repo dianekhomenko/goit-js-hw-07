@@ -15,35 +15,39 @@ gallery.insertAdjacentHTML("beforeend", template);
 
 gallery.addEventListener("click", onClick);
 
-let galleryBig;
-
 function onClick(evt) {
+  evt.preventDefault();
   if (evt.target.nodeName !== "IMG") {
     return;
   }
   let bigPhoto = evt.target.dataset.source;
 
-  galleryBig = basicLightbox
-    .create(
-      `
+  const instance = basicLightbox.create(
+    `
 		<img width="1400" height="900" src="${bigPhoto}">
-	`
-    )
-    .show();
-}
+	`,
+    {
+      onShow: (instance) => {
+        window.addEventListener(
+          "keydown",
+          onKey
+        );
+      },
+      onClose: (instance) => {
+        window.removeEventListener(
+          "keydown",
+          onKey
+        );
+      },
+    }
+  );
+    
+  instance.show();
 
-document.addEventListener(
-  "keydown",
-  closeGallery
-);
-
-function closeGallery({ key }) {
-  if (
-    !basicLightbox.visible() ||
-    key !== "Escape"
-  ) {
-    return;
+  function onKey({ key }) {
+    if (key !== "Escape") {
+      return;
+    }
+    instance.close();
   }
-  console.log("close");
-  basicLightbox.close();
 }
