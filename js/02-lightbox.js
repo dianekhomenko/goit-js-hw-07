@@ -13,7 +13,6 @@ const template = galleryItems
   .join("");
 
 gallery.insertAdjacentHTML("beforeend", template);
-console.log(galleryItems);
 
 var lightbox = new SimpleLightbox(".gallery a", {
   captionsData: 'alt',
